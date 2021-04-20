@@ -22,6 +22,23 @@ function time2text (time) {
     spokenTime.push("o'clock");
   }
 
+  if (splitTime[1] === '05' || splitTime[1] === '10' || splitTime[1] === '20') {
+    let hour = parseInt(splitTime[0]);
+    if (hour > 12) {
+      hour-= 12;
+    }
+
+    spokenTime.push(parseInt(splitTime[1]) + ' after ' + hour);
+  }
+
+  if (splitTime[1] === '55' || splitTime[1] === '50' || splitTime[1] === '40') {
+    let hour = parseInt(splitTime[0]);
+    if (hour > 12) {
+      hour-= 12;
+    }
+
+    spokenTime.push((60 - parseInt(splitTime[1])) + ' to ' + (hour + 1));
+  }
 
   //morning, afternoon, evening
   let hour = parseInt(splitTime[0]);
@@ -41,6 +58,10 @@ console.log(time2text('00:00'));
 console.log(time2text('06:00'));
 console.log(time2text('14:00'));
 console.log(time2text('19:00'));
+console.log(time2text('02:05'));
+console.log(time2text('14:05'));
+console.log(time2text('02:50'));
+console.log(time2text('14:50'));
 
 
 module.exports = time2text
