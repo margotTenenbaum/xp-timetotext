@@ -7,7 +7,7 @@ function minute2text(minute) {
   let minuteWord = '';
 
   if (minute[0] === '0') { //single digits
-    minuteWord += 'oh ';
+    //minuteWord += 'oh ';
     minuteWord += singleNumbers[parseInt(minute[1]) - 1];
   } else if (minute[0] === '1') { //ten and teens
     if (minute === '10') {
@@ -19,7 +19,7 @@ function minute2text(minute) {
     if (minute[1] === '0') { 
       minuteWord += tens[parseInt(minute[0]) - 2];
     } else {
-      minuteWord += tens[parseInt(minute[0]) - 2] + ' ' + singleNumbers[parseInt(minute[1]) - 1];
+      minuteWord += tens[parseInt(minute[0]) - 2] + '-' + singleNumbers[parseInt(minute[1]) - 1];
     }
   }
 
@@ -35,8 +35,8 @@ function time2text (time) {
     return 'midnight';
   } else if (time === '12:00') {
     return 'noon';
-  }
-
+  } 
+  
   if (splitTime[1] === '00') {
     let hour = parseInt(splitTime[0]);
     if (hour > 12) {
@@ -45,9 +45,7 @@ function time2text (time) {
 
     spokenTime.push(hours[hour - 1]);
     spokenTime.push("o'clock");
-  }
-
-  if (splitTime[1] === '05' || splitTime[1] === '10' || splitTime[1] === '20') {
+  } else if (splitTime[1] === '05' || splitTime[1] === '10' || splitTime[1] === '20') {
     let hour = parseInt(splitTime[0]);
     if (hour > 12) {
       hour-= 12;
@@ -61,10 +59,8 @@ function time2text (time) {
       hour = hours[hour - 1];
     }
     
-    spokenTime.push(parseInt(splitTime[1]) + ' after ' + hour);
-  }
-
-  if (splitTime[1] === '55' || splitTime[1] === '50' || splitTime[1] === '40') {
+    spokenTime.push(minute2text(splitTime[1]) + ' after ' + hour);
+  } else if (splitTime[1] === '55' || splitTime[1] === '50' || splitTime[1] === '40') {
     let hour = parseInt(splitTime[0]);
     if (hour > 12) {
       hour-= 12;
@@ -78,8 +74,32 @@ function time2text (time) {
       hour = hours[hour];
     }
 
-    spokenTime.push((60 - parseInt(splitTime[1])) + ' to ' + hour);
+    let minutes = 60 - parseInt(splitTime[1]);
+    let minStr = minutes.toString();
+
+    if (minStr.length === 1) {
+      minStr = '0' + minStr;
+    }
+
+    spokenTime.push(minute2text(minStr) + ' to ' + hour);
+  } else { //all other times
+    let hour = parseInt(splitTime[0]);
+    if (hour > 12) {
+      hour-= 12;
+    }
+    if (hour === 0) {
+      hour = 12;
+    }
+  
+    if (splitTime[1][0] === '0') {
+      spokenTime.push(hours[hour - 1] + ' oh ' + minute2text(splitTime[1]));
+    } else {
+      spokenTime.push(hours[hour - 1] + " " + minute2text(splitTime[1]));
+    }
+   
   }
+
+
 
   //morning, afternoon, evening
   let hour = parseInt(splitTime[0]);
@@ -94,15 +114,16 @@ function time2text (time) {
   return spokenTime.join(' ');
 }
 
-// console.log(time2text('12:00'));
-// console.log(time2text('00:00'));
-// console.log(time2text('06:00'));
-// console.log(time2text('14:00'));
-// console.log(time2text('19:00'));
-// console.log(time2text('02:05'));
-// console.log(time2text('14:05'));
-// console.log(time2text('02:50'));
-// console.log(time2text('14:50'));
+console.log(time2text('12:00'));
+console.log(time2text('00:00'));
+console.log(time2text('06:00'));
+console.log(time2text('14:00'));
+console.log(time2text('19:00'));
+console.log(time2text('02:05'));
+console.log(time2text('14:05'));
+console.log(time2text('02:50'));
+console.log(time2text('14:50'));
+console.log(time2text('16:04'));
 
 module.exports = time2text
 
