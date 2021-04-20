@@ -1,10 +1,14 @@
 'use strict'
 
 function numbers2text(number) {
-  if (number === '0') {
+  if (number === '0' || number === '00') {
     return 'zero';
   }
-  
+
+  if (number === '000') {
+    return '';
+  }
+
   while (number.length < 3) {
     number = '0' + number;
   }
@@ -46,17 +50,36 @@ function money2text (money) {
   let length = moneySplit[0].length;
   let dollars = '';
 
-  if (length < 4) {
-    dollars += numbers2text(moneySplit[0]);
+  if (length > 6 && length < 10) { 
+    dollars += numbers2text(moneySplit[0].substring(0, length - 6)) + ' million ';
+    moneySplit[0] = moneySplit[0].slice(length - 6)
+    length = moneySplit[0].length;
   }
 
-  return dollars + ' dollars and ' + cents;
+  if (length > 3 && length < 7) {  //7000
+    console.log('thousand: ', moneySplit[0]);
+    dollars += numbers2text(moneySplit[0].substring(0, length - 3)) + ' thousand';
+    moneySplit[0] = moneySplit[0].slice(length - 3)
+    length = moneySplit[0].length;
+  }
+
+  if (length < 4) { 
+    dollars += numbers2text(moneySplit[0]);
+  }
+  
+  if (cents === 'zero cents') {
+    return dollars + ' dollars';
+  } else {
+    return dollars + ' dollars and ' + cents;
+  }
 }
 
-console.log(money2text('0.05'))
-console.log(money2text('1.50'))
-console.log(money2text('23.05'))
-console.log(money2text('566.05'))
+// console.log(money2text('0.05'))
+// console.log(money2text('1.50'))
+// console.log(money2text('23.05'))
+// console.log(money2text('566.05'))
+// console.log(money2text('5566.05'))
+console.log(money2text('17540323.00'));
 
 // Input: string(number in digit form)
 // Output: string(number in spoken form)
