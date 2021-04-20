@@ -1,5 +1,37 @@
 'use strict'
 
+function minute2text(minute) {
+  let singleNumbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+  let teens = ['eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+  let tens = ['ten', 'twenty', 'thirty', 'fourty', 'fifty']
+  let minuteWord = '';
+
+  if (minute === '11') {
+    return 'eleven';
+  }
+
+  if (minute[0] === '0') {
+    minuteWord += 'oh ';
+    minuteWord += singleNumbers[parseInt(minute[1]) - 1];
+  } else if (minute[1] === 0) {
+    minuteWord += tens[parseInt(minute[0]) - 1];
+  } else if (minute[0] === 1) {
+    minuteWord += teens[parseInt(minute[1]) - 1];
+  } else {
+    minuteWord += tens[parseInt(minute[0]) - 1] + ' ' + singleNumbers[parseInt(minute[1]) - 1];
+  }
+
+  return minuteWord;
+}
+
+console.log(minute2text('34'));
+console.log(minute2text('05'));
+console.log(minute2text('11'));
+console.log(minute2text('10'));
+console.log(minute2text('16'));
+
+
+
 function time2text (time) {
   let splitTime = time.split(':');
   let hours = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
@@ -28,6 +60,14 @@ function time2text (time) {
       hour-= 12;
     }
 
+    if (hour === 12) {
+      hour = 'noon';
+    } else if (hour === 0) {
+      hour = 'midnight';
+    } else {
+      hour = hours[hour - 1];
+    }
+    
     spokenTime.push(parseInt(splitTime[1]) + ' after ' + hour);
   }
 
@@ -37,7 +77,15 @@ function time2text (time) {
       hour-= 12;
     }
 
-    spokenTime.push((60 - parseInt(splitTime[1])) + ' to ' + (hour + 1));
+    if (hour === 12) {
+      hour = 'noon';
+    } else if (hour === 0) {
+      hour = 'midnight';
+    } else {
+      hour = hours[hour];
+    }
+
+    spokenTime.push((60 - parseInt(splitTime[1])) + ' to ' + hour);
   }
 
   //morning, afternoon, evening
