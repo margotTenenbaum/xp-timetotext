@@ -3,5 +3,9 @@
     {"amount":"645.00","text":"six hundred and fourty five dollars"},
     {"amount":"255.00","text":"two hundred and fifty five dollars"},
     {"amount":"55.55","text":"fifty five dollars and fifty five cents"},
-    {"amount":"7000.55","text":"seven thousand dollars and fifty five cents"}
+    {"amount":"7000.55","text":"seven thousand dollars and fifty five cents"},
+    {"amount":"500.00","text":"five hundred dollars"},
+    {"amount":"10456123.15","text":"ten million four hundred fifty six thousand one hundred twenty three dollars and fifteen cents"},
+    {"amount":"5000000.00","text":"five million dollars"},
+    {"amount":"7000450.22","text":"seven million four hundred and fifty dollars and twenty two cents"}
 ]

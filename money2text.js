@@ -15,7 +15,7 @@ function numbers2text(number) {
 
   let singleNumbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
   let teens = ['eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-  let tens = ['twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+  let tens = ['twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
   let word = '';
 
   if (number[0] !== '0' ) {
@@ -41,7 +41,7 @@ function numbers2text(number) {
     }
   }
 
-  return word;
+  return word + ' ';
 }
 
 function money2text (money) {
@@ -50,15 +50,18 @@ function money2text (money) {
   let length = moneySplit[0].length;
   let dollars = '';
 
-  if (length > 6 && length < 10) { 
-    dollars += numbers2text(moneySplit[0].substring(0, length - 6)) + ' million ';
+  if (length > 6 && length < 10) { //5000000
+    //console.log('million: ', moneySplit[0].substring(0, length - 6));
+    dollars += numbers2text(moneySplit[0].substring(0, length - 6)) + 'million ';
     moneySplit[0] = moneySplit[0].slice(length - 6)
     length = moneySplit[0].length;
   }
 
-  if (length > 3 && length < 7) {  //7000
-    console.log('thousand: ', moneySplit[0]);
-    dollars += numbers2text(moneySplit[0].substring(0, length - 3)) + ' thousand';
+  if (length > 3 && length < 7) {  
+    if (moneySplit[0].substring(0,3) !== '000') {
+      dollars += numbers2text(moneySplit[0].substring(0, length - 3)) + 'thousand ';
+    }
+    
     moneySplit[0] = moneySplit[0].slice(length - 3)
     length = moneySplit[0].length;
   }
@@ -68,17 +71,12 @@ function money2text (money) {
   }
   
   if (cents === 'zero cents') {
-    return dollars + ' dollars';
+    return dollars + 'dollars';
   } else {
-    return dollars + ' dollars and ' + cents;
+    return dollars + 'dollars and ' + cents;
   }
-}
+} 
 
-// console.log(money2text('0.05'))
-// console.log(money2text('1.50'))
-// console.log(money2text('23.05'))
-// console.log(money2text('566.05'))
-// console.log(money2text('5566.05'))
 console.log(money2text('17540323.00'));
 
 // Input: string(number in digit form)
@@ -94,7 +92,3 @@ console.log(money2text('17540323.00'));
 //  Work recursively
 
 module.exports = money2text
-
-
-// 117,554,205.00
-//length = 4
