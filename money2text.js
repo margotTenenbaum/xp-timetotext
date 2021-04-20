@@ -12,6 +12,10 @@ function numbers2text(number) {
 
   if (number[0] !== '0' ) {
     word += singleNumbers[parseInt(number[0]) - 1] + ' hundred ';
+
+    if (number[1] !== 0 || number[2] !== 0) {
+      word += 'and ';
+    }
   }
   if (number[1] === '0') { // single digits   504
     word += singleNumbers[parseInt(number[2]) - 1];
