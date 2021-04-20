@@ -111,7 +111,6 @@ function time2text (time) {
   } else if (splitTime[1] === '45') {
     let hour = parseInt(splitTime[0]);
 
-
     if (hour === 11) {
       hour = 'noon';
       noonMidnight = true;
@@ -161,11 +160,6 @@ function time2text (time) {
 
   return spokenTime.join(' ');
 }
-
-console.log(time2text('03:10'));
-console.log(time2text('03:15'));
-console.log(time2text('21:05'));
-console.log(time2text('02:30'));
 
 module.exports = time2text
 
