@@ -6,7 +6,8 @@
   "scripts": {
     "test:time": "node test/verify.js",
     "test:money": "node test/verify2.js",
-    "start:watch": "nodemon test/verify.js"
+    "start:watch": "nodemon test/verify.js",
+    "test:watch": "nodemon test/verify2.js"
   },
   "author": "",
   "license": "UNLICENSED",
