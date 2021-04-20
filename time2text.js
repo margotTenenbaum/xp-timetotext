@@ -3,34 +3,28 @@
 function minute2text(minute) {
   let singleNumbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
   let teens = ['eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-  let tens = ['ten', 'twenty', 'thirty', 'fourty', 'fifty']
+  let tens = ['twenty', 'thirty', 'fourty', 'fifty']
   let minuteWord = '';
 
-  if (minute === '11') {
-    return 'eleven';
-  }
-
-  if (minute[0] === '0') {
+  if (minute[0] === '0') { //single digits
     minuteWord += 'oh ';
     minuteWord += singleNumbers[parseInt(minute[1]) - 1];
-  } else if (minute[1] === 0) {
-    minuteWord += tens[parseInt(minute[0]) - 1];
-  } else if (minute[0] === 1) {
-    minuteWord += teens[parseInt(minute[1]) - 1];
-  } else {
-    minuteWord += tens[parseInt(minute[0]) - 1] + ' ' + singleNumbers[parseInt(minute[1]) - 1];
+  } else if (minute[0] === '1') { //ten and teens
+    if (minute === '10') {
+      return 'ten'
+    } else {
+      minuteWord += teens[parseInt(minute[1]) - 1];
+    }
+  } else { //twenty and up
+    if (minute[1] === '0') { 
+      minuteWord += tens[parseInt(minute[0]) - 2];
+    } else {
+      minuteWord += tens[parseInt(minute[0]) - 2] + ' ' + singleNumbers[parseInt(minute[1]) - 1];
+    }
   }
 
   return minuteWord;
 }
-
-console.log(minute2text('34'));
-console.log(minute2text('05'));
-console.log(minute2text('11'));
-console.log(minute2text('10'));
-console.log(minute2text('16'));
-
-
 
 function time2text (time) {
   let splitTime = time.split(':');
@@ -42,7 +36,6 @@ function time2text (time) {
   } else if (time === '12:00') {
     return 'noon';
   }
-
 
   if (splitTime[1] === '00') {
     let hour = parseInt(splitTime[0]);
@@ -101,19 +94,17 @@ function time2text (time) {
   return spokenTime.join(' ');
 }
 
-console.log(time2text('12:00'));
-console.log(time2text('00:00'));
-console.log(time2text('06:00'));
-console.log(time2text('14:00'));
-console.log(time2text('19:00'));
-console.log(time2text('02:05'));
-console.log(time2text('14:05'));
-console.log(time2text('02:50'));
-console.log(time2text('14:50'));
-
+// console.log(time2text('12:00'));
+// console.log(time2text('00:00'));
+// console.log(time2text('06:00'));
+// console.log(time2text('14:00'));
+// console.log(time2text('19:00'));
+// console.log(time2text('02:05'));
+// console.log(time2text('14:05'));
+// console.log(time2text('02:50'));
+// console.log(time2text('14:50'));
 
 module.exports = time2text
-
 
 /*
 I: string
