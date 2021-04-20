@@ -36,16 +36,15 @@ function numbers2text(number) {
   return word;
 }
 
-console.log(numbers2text('528'))
-console.log(numbers2text('402'))
-console.log(numbers2text('42'))
-console.log(numbers2text('2'))
+function money2text (money) {
+  let moneySplit = money.split('.');
+  let cents = numbers2text(moneySplit[1]) + ' cents';
 
-
-function money2text (time) {
-
-
+  return cents;
 }
+
+console.log(money2text('0.05'))
+console.log(money2text('0.50'))
 
 // Input: string(number in digit form)
 // Output: string(number in spoken form)
