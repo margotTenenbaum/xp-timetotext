@@ -1,6 +1,10 @@
 'use strict'
 
 function numbers2text(number) {
+  if (number === '0') {
+    return 'zero';
+  }
+  
   while (number.length < 3) {
     number = '0' + number;
   }
@@ -39,12 +43,20 @@ function numbers2text(number) {
 function money2text (money) {
   let moneySplit = money.split('.');
   let cents = numbers2text(moneySplit[1]) + ' cents';
+  let length = moneySplit[0].length;
+  let dollars = '';
 
-  return cents;
+  if (length < 4) {
+    dollars += numbers2text(moneySplit[0]);
+  }
+
+  return dollars + ' dollars and ' + cents;
 }
 
 console.log(money2text('0.05'))
-console.log(money2text('0.50'))
+console.log(money2text('1.50'))
+console.log(money2text('23.05'))
+console.log(money2text('566.05'))
 
 // Input: string(number in digit form)
 // Output: string(number in spoken form)
