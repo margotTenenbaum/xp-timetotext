@@ -28,10 +28,12 @@ function minute2text(minute) {
 
 function time2text (time) {
   let splitTime = time.split(':');
-  let hours = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+  let hours = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'one'];
   let spokenTime = [];
+  let roundUp = false;
+  let noonMidnight = false;
 
-  if (time === '00:00') {
+  if (time === '24:00' || time === '00:00') {
     return 'midnight';
   } else if (time === '12:00') {
     return 'noon';
@@ -53,25 +55,31 @@ function time2text (time) {
 
     if (hour === 12) {
       hour = 'noon';
+      noonMidnight = true;
     } else if (hour === 0) {
       hour = 'midnight';
+      noonMidnight = true;
     } else {
       hour = hours[hour - 1];
     }
     
-    spokenTime.push(minute2text(splitTime[1]) + ' after ' + hour);
-  } else if (splitTime[1] === '55' || splitTime[1] === '50' || splitTime[1] === '40') {
-    let hour = parseInt(splitTime[0]);
-    if (hour > 12) {
-      hour-= 12;
-    }
+    spokenTime.push(minute2text(splitTime[1]) + ' past ' + hour);
+  } else if (splitTime[1] === '55' || splitTime[1] === '50' || splitTime[1] === '40') { 
+    let hour = parseInt(splitTime[0]); 
 
-    if (hour === 12) {
+
+    if (hour === 11) {
       hour = 'noon';
-    } else if (hour === 0) {
+      noonMidnight = true;
+    } else if (hour === 23) {
       hour = 'midnight';
+      noonMidnight = true;
     } else {
+      if (hour > 12) {
+        hour -= 12;
+      }
       hour = hours[hour];
+      roundUp = true;
     }
 
     let minutes = 60 - parseInt(splitTime[1]);
@@ -82,10 +90,47 @@ function time2text (time) {
     }
 
     spokenTime.push(minute2text(minStr) + ' to ' + hour);
+  } else if (splitTime[1] === '15' || splitTime[1] === '30') {
+    let hour = parseInt(splitTime[0]);
+    if (hour > 12) {
+      hour -= 12;
+    }
+
+    if (hour === 12) {
+      hour = 'noon';
+      noonMidnight = true;
+    } else if (hour === 0) {
+      hour = 'midnight';
+      noonMidnight = true;
+    } else {
+      hour = hours[hour - 1];
+    }
+
+    let minWord = splitTime[1] === '15' ? 'quarter' : 'half';
+    spokenTime.push(minWord + ' past ' + hour);
+  } else if (splitTime[1] === '45') {
+    let hour = parseInt(splitTime[0]);
+
+
+    if (hour === 11) {
+      hour = 'noon';
+      noonMidnight = true;
+    } else if (hour === 23) {
+      hour = 'midnight';
+      noonMidnight = true;
+    } else {
+      if (hour > 12) {
+        hour -= 12;
+      }
+      hour = hours[hour];
+      roundUp = true;
+    }
+
+    spokenTime.push('quarter to ' + hour);
   } else { //all other times
     let hour = parseInt(splitTime[0]);
     if (hour > 12) {
-      hour-= 12;
+      hour -= 12;
     }
     if (hour === 0) {
       hour = 12;
@@ -99,31 +144,28 @@ function time2text (time) {
    
   }
 
-
-
   //morning, afternoon, evening
-  let hour = parseInt(splitTime[0]);
-  if (hour < 12) {
-    spokenTime.push('in the morning');
-  } else if (hour >= 12 && hour < 18) {
-    spokenTime.push('in the afternoon');
-  } else {
-    spokenTime.push('in the evening');
+  if (!noonMidnight) {
+    let hour = parseInt(splitTime[0]);
+    if (roundUp) {
+      hour++;
+    }
+    if (hour < 12) {
+      spokenTime.push('in the morning');
+    } else if (hour >= 12 && hour < 18) {
+      spokenTime.push('in the afternoon');
+    } else {
+      spokenTime.push('in the evening');
+    }
   }
 
   return spokenTime.join(' ');
 }
 
-console.log(time2text('12:00'));
-console.log(time2text('00:00'));
-console.log(time2text('06:00'));
-console.log(time2text('14:00'));
-console.log(time2text('19:00'));
-console.log(time2text('02:05'));
-console.log(time2text('14:05'));
-console.log(time2text('02:50'));
-console.log(time2text('14:50'));
-console.log(time2text('16:04'));
+console.log(time2text('03:10'));
+console.log(time2text('03:15'));
+console.log(time2text('21:05'));
+console.log(time2text('02:30'));
 
 module.exports = time2text
 
